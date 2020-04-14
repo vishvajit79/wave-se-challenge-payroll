@@ -6,6 +6,7 @@ from flasgger import swag_from
 from flask.json import jsonify
 from flask_restful import Resource
 from services import ReportService
+from flask import make_response
 
 
 class ReportController(Resource):
@@ -19,4 +20,4 @@ class ReportController(Resource):
             data = ReportService.get()
             return jsonify({"payrollReport": {"employeeReports": data}})
         except Exception as e:
-            return jsonify({"success": False, "error": str(e)}), 400
+            return make_response(jsonify({"success": False, "error": str(e)}), 400)

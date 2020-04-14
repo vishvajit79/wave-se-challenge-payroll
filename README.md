@@ -156,27 +156,27 @@ We've agreed to build an API with the following endpoints to serve HTTP requests
          {
            employeeId: 1,
            payPeriod: {
-             startDate: "2020-01-01",
-             endDate: "2020-01-15"
+             startDate: '2020-01-01',
+             endDate: '2020-01-15',
            },
-           amountPaid: "$300.00"
+           amountPaid: '$300.00',
          },
          {
            employeeId: 1,
            payPeriod: {
-             startDate: "2020-01-16",
-             endDate: "2020-01-31"
+             startDate: '2020-01-16',
+             endDate: '2020-01-31',
            },
-           amountPaid: "$80.00"
+           amountPaid: '$80.00',
          },
          {
            employeeId: 2,
            payPeriod: {
-             startDate: "2020-01-16",
-             endDate: "2020-01-31"
+             startDate: '2020-01-16',
+             endDate: '2020-01-31',
            },
-           amountPaid: "$90.00"
-         }
+           amountPaid: '$90.00',
+         },
        ];
      }
    }
@@ -193,10 +193,40 @@ We consider ourselves to be language agnostic here at Wave, so feel free to use 
 Please commit the following to this `README.md`:
 
 1. Instructions on how to build/run your application
+
+- After downloading/cloning the repo, navigate to the root directory, create a virtual environment with python 3.5+
+- You can use this command if you want `python -m venv .venv`
+- run the commamnd `pip install -r requirements.txt`
+- navigate to server directory `cd server`
+- First you need to generate migrations. Run the following commands below
+  ```
+  python manage.py db init
+  python manage.py db migrate
+  python manage.py db upgrde
+  ```
+- Once this step is completed, it should generate migrations and payroll.db
+- If you want to use mysql remote database then you need to download mysql client and uncomment the DB_URI in the config.py
+- It will allow you to connect to my remote mysql hosting
+- After the migrations, time to run the app
+
+```
+  python server.py
+```
+
+- That's it. It should run at http://127.0.0.1:3000
+- I have also made a swagger for the api at http://127.0.0.1:3000/v1/spec
+- There are two endpoints in the app as below
+  1. POST http://127.0.0.1:3000/v1/upload - where you need to add a csv file to the `form data` with the name `file`
+  2. GET http://127.0.0.1:3000/v1/report - will generate the report
+- If you have any questions, feel free to reach out at vishvajit79+wave@gmail.com
+
 1. Answers to the following questions:
    - How did you test that your implementation was correct?
+     `I ran my own custom data set along with the data provided initialy. As the readme said the data will be valid and there will be no incorrect data.`
    - If this application was destined for a production environment, what would you add or change?
+     `I would change a couple of things like using sepearte config for each env, writing (unit and integration tests), storing secrets for database connection in secret manager and then using IAM role based appraoch allow service to access the secret (something like aws secret manager), updating the controllers to check for valid data before storing, updating the generate report to have pagination as when there are lot of records it is bad to fetch all at once, optimize my panda query to get the json response as there is lot of room for improvement(date fixed to 1-15 and 16-31 can be changed to return proper date as each month are different), adding cicd scripts to automate the deployment process, creating libraries that can be reused like error handler that has custom error codes based on the error, returning the class name along with the method name to log the error properly, use logging services like newrelic, cloudwatch, sumologic to log all the log message, caching the report if lot of people are calling to minimize the response latency as also you dont need to call databsase every second, etc..`
    - What compromises did you have to make as a result of the time constraints of this challenge?
+     `I wanted to keep it short and finish on time, so I didn't write test cases as the readme said the data provided will be valid. I wanted to improve my panda query to generate report as it will very basic. if I use some moretime than I would have optimize the query. I didn't log anything when there is an exception. I wanted to create a proper error handler that can log the location of the error, proper timestamp, etc.`
 
 ## Submission Instructions
 
