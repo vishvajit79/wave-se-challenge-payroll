@@ -12,8 +12,8 @@ class HourLog(db.Model, BaseModel, metaclass=MetaBaseModel):
 
     id = db.Column(db.Integer, primary_key=True)
     employee_id = db.Column(db.Integer, nullable=False)
-    hours_worked = db.Column(db.Float, default=0)
-    date = db.Column(db.Date, nullable=False)
+    hours_worked = db.Column(db.Float, nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
     job_group_id = db.Column(db.Integer, db.ForeignKey(
         'job_group.id'), nullable=False)
     upload_file_id = db.Column(db.Integer, db.ForeignKey(
@@ -23,7 +23,7 @@ class HourLog(db.Model, BaseModel, metaclass=MetaBaseModel):
     def __init__(self, employee_id, hours_worked, date, job_group_id, upload_file_id):
         """ Create a new HourLog """
         self.employee_id = employee_id
-        self.hours_worked = self.hours_worked
+        self.hours_worked = hours_worked
         self.date = date
         self.job_group_id = job_group_id
         self.upload_file_id = upload_file_id

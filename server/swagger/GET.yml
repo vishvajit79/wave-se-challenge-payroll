@@ -1,0 +1,33 @@
+Return an user key information based on his name
+---
+tags:
+  - report
+responses:
+  200:
+    description: Report for all the employees for a biweekly pay period
+    schema:
+      required:
+        - 'payrollReport'
+      properties:
+        payrollReport:
+          required:
+            - 'employeeReports'
+          properties:
+            employeeReports:
+              type: 'array'
+              items:
+                type: 'object'
+                properties:
+                  amountPaid:
+                    type: 'number'
+                  employeeId:
+                    type: 'number'
+                  payPeriod:
+                    required:
+                      - 'endDate'
+                      - 'startDate'
+                    properties:
+                      endDate:
+                        type: 'string'
+                      startDate:
+                        type: 'string'

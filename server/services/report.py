@@ -2,6 +2,7 @@
 
 from models import JobGroup, db
 import pandas as pd
+import json
 
 
 class ReportService:
@@ -16,14 +17,27 @@ class ReportService:
             job_group = pd.read_sql_table(
                 table_name='job_group', con=db.engine)
             df = pd.merge(hour_log, job_group, how='left',
-                          left_on='job_group_id', right_on='job_group_id', sort=True)
-            df['amountpaid'] = df['hours_worked'].astype(
+                          left_on='job_group_id', right_on='id', sort=True)
+            df['amountPaid'] = df['hours_worked'].astype(
                 float) * df['wage'].astype(float)
-            df['payperiod'] = df['date'].apply(
-                lambda x: f"1/{x.month}/{x.year} - 15/{x.month}/{x.year}" if x.day <= 15 else f"16/{x.month}/{x.year} - 30/{x.month}/{x.year}")
-            df = df[['payperiod', 'employee_id', 'amountpaid']].groupby(
-                ['payperiod', 'employee_id']).sum().reset_index()
-            return df.to_json(orient="records")
-
+            df['payPeriod'] = df['date'].apply(
+                lambda x: ReportService.generate_pay_period_json(1, 15, x.month, x.year, ) if x.day <= 15 else ReportService.generate_pay_period_json(16, 31, x.month, x.year, ))
+            df['payPeriod2'] = df['date'].apply(
+                lambda x: f"1/{x.month}/{x.year}" if x.day <= 15 else f"16/{x.month}/{x.year}")
+            df = df[['payPeriod', 'employee_id', 'amountPaid']].groupby(
+                ['payPeriod', 'employee_id']).sum().reset_index()
+            df = df.rename(columns={'employee_id': 'employeeId'})
+            json_df = json.loads(df.to_json(orient="records"))
+            for item in json_df:
+                item['payPeriod'] = json.loads(item['payPeriod'])
+            return json_df
         except Exception as e:
             raise e
+
+    @staticmethod
+    def generate_pay_period_json(start_date, end_date, month, year):
+        data = {
+            "startDate": f"{start_date}/{month}/{year}",
+            "endDate": f"{end_date}/{month}/{year}",
+        }
+        return json.dumps(data)

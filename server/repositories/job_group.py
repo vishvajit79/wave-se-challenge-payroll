@@ -9,7 +9,7 @@ class JobGroupRepository:
     @staticmethod
     def get(name):
         """ Query a JobGroup by name """
-        job_group = JobGroup.query.filter_by(name=name).one()
+        job_group = JobGroup.query.filter_by(name=name).one_or_none()
         return job_group
 
     @staticmethod

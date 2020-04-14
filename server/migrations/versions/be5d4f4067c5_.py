@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: d6c7e51a2ba6
+Revision ID: be5d4f4067c5
 Revises: 
-Create Date: 2020-04-13 21:15:43.857882
+Create Date: 2020-04-14 00:55:46.257465
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd6c7e51a2ba6'
+revision = 'be5d4f4067c5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -34,8 +34,8 @@ def upgrade():
     op.create_table('hour_log',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('employee_id', sa.Integer(), nullable=False),
-    sa.Column('hours_worked', sa.Float(), nullable=True),
-    sa.Column('date', sa.Date(), nullable=False),
+    sa.Column('hours_worked', sa.Float(), nullable=False),
+    sa.Column('date', sa.DateTime(), nullable=False),
     sa.Column('job_group_id', sa.Integer(), nullable=False),
     sa.Column('upload_file_id', sa.Integer(), nullable=False),
     sa.Column('date_created', sa.DateTime(), nullable=True),

@@ -9,11 +9,17 @@ class UploadFileRepository:
     @staticmethod
     def get(name):
         """ Query a UploadFile by name """
-        file = UploadFile.query.filter_by(name=name).one()
-        return file
+        try:
+            file = UploadFile.query.filter_by(name=name).one_or_none()
+            return file
+        except Exception as e:
+            raise e
 
     @staticmethod
     def create(name):
         """ Create a new UploadFile """
-        file = UploadFile(name=name)
-        return file.save()
+        try:
+            file = UploadFile(name=name)
+            return file.save()
+        except Exception as e:
+            raise e

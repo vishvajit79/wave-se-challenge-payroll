@@ -20,8 +20,11 @@ class UploadController(Resource):
         Argument("file", type=FileStorage, location='files', required=True,
                  help="The csv file for number of hours worked per day per employee")
     )
-    @swag_from("../swagger/user/POST.yml")
+    @swag_from("../swagger/POST.yml")
     def post(file):
         """ Create a hour log for the employee and also archive the file """
-        UploadService.upload(file)
-        return jsonify({"success": True, "message": "Hours logged successfully"})
+        try:
+            UploadService.upload(file)
+            return jsonify({"success": True, "message": "Hours logged successfully"})
+        except Exception as e:
+            return jsonify({"success": False, "error": str(e)}), 400
