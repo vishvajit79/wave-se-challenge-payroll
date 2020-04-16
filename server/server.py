@@ -22,7 +22,7 @@ server.config["SWAGGER"] = {
             "version": "0.0.1",
             "title": "Application",
             "endpoint": "spec",
-            "route": "/application/spec",
+            "route": "/v1/spec",
             "rule_filter": lambda rule: True,  # all in
         }
     ],
