@@ -1,0 +1,12 @@
+{
+  "python.pythonPath": ".venv\\Scripts\\python.exe",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "python.sortImports": true
+  },
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true,
+  "python.linting.pylintArgs": ["--load-plugins", "pylint-flask"],
+  "python.envFile": "${workspaceRoot}/.env",
+  "python.jediEnabled": false
+}
