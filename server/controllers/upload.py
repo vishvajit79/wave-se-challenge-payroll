@@ -31,3 +31,15 @@ class UploadController(Resource):
             return jsonify({"success": True, "message": "Hours logged successfully"})
         except Exception as e:
             return make_response(jsonify({"success": False, "error": str(e)}), 400)
+
+    @staticmethod
+    @parse_params(
+        Argument("fileNumber", location='args', required=True,
+                 help="The file report number that needs to be deleted")
+    )
+    def delete(fileNumber):
+        try:
+            data = UploadService.delete_file(fileNumber)
+            return make_response(jsonify({"success": True, 'hour_log_deleted': data['hour_log_deleted'], 'file_deleted': data['upload_file_deleted'] is 1}))
+        except Exception as e:
+            return make_response(jsonify({"success": False, "error": str(e)}), 400)

@@ -1,6 +1,6 @@
 """ Defines the UploadFile repository """
 
-from models import UploadFile
+from models import UploadFile, db
 
 
 class UploadFileRepository:
@@ -21,5 +21,15 @@ class UploadFileRepository:
         try:
             file = UploadFile(name=name)
             return file.save()
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def delete_by_id(fileId) -> int:
+        try:
+            deleted = UploadFile.query.filter(UploadFile.id == fileId).delete()
+            db.session.commit()
+            return deleted
+
         except Exception as e:
             raise e

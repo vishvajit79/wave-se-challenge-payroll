@@ -44,3 +44,16 @@ class UploadService:
 
         except Exception as e:
             raise e
+
+    @staticmethod
+    def delete_file(fileNumber: str) -> dict:
+        try:
+            upload_file_exists = UploadFileRepository.get(name=fileNumber)
+            if upload_file_exists is None:
+                raise ValueError('File does not exists.')
+            fileId = upload_file_exists.id
+            hour_log_deleted = HourLogService.delete_by_file_id(fileId=fileId)
+            upload_file_deleted = UploadFileRepository.delete_by_id(fileId)
+            return {'hour_log_deleted': hour_log_deleted, 'upload_file_deleted': upload_file_deleted}
+        except Exception as e:
+            raise e
