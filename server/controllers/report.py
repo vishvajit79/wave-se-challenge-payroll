@@ -20,4 +20,4 @@ class ReportController(Resource):
             data = ReportService.get()
             return jsonify({"payrollReport": {"employeeReports": data}})
         except Exception as e:
-            return make_response(jsonify({"success": False, "error": str(e)}), 400)
+            return make_response(jsonify({"success": False, "error": str(e)}, indext=2), 400)

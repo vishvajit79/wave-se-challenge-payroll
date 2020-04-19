@@ -1,6 +1,5 @@
-ALLOWED_EXTENSIONS = set(['csv'])
+import re
 
 
 def is_file_allowed(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return re.findall(r'time-report-[0-9]+.csv', filename)
