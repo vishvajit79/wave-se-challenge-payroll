@@ -2,4 +2,4 @@
 *.log
 __pycache__/
 server/migrations
-*.db
+server/payroll.db
