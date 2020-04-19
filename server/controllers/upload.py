@@ -25,8 +25,6 @@ class UploadController(Resource):
     def post(file):
         """ Create a hour log for the employee and also archive the file """
         try:
-            if len(is_file_allowed(file.filename)) != 1:
-                raise Exception('File name not valid')
             UploadService.upload(file)
             return jsonify({"success": True, "message": "Hours logged successfully"})
         except Exception as e:

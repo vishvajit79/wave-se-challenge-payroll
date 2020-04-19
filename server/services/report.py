@@ -22,11 +22,11 @@ class ReportService:
                 float) * df['wage'].astype(float)
             df['payPeriod'] = df['date'].apply(
                 lambda x: ReportService.generate_pay_period_json(1, 15, x.month, x.year, ) if x.day <= 15 else ReportService.generate_pay_period_json(16, 31, x.month, x.year, ))
+            df['payPeriod2'] = df['date'].apply(
+                lambda x: f"1/{x.month}/{x.year}" if x.day <= 15 else f"16/{x.month}/{x.year}")
             df = df[['payPeriod', 'employee_id', 'amountPaid']].groupby(
                 ['payPeriod', 'employee_id']).sum().reset_index()
             df = df.rename(columns={'employee_id': 'employeeId'})
-            df = df.sort_values(['employeeId', 'payPeriod'])
-            df['amountPaid'] = '$' + df['amountPaid'].astype(str)
             json_df = json.loads(df.to_json(orient="records"))
             for item in json_df:
                 item['payPeriod'] = json.loads(item['payPeriod'])
@@ -37,7 +37,7 @@ class ReportService:
     @staticmethod
     def generate_pay_period_json(start_date, end_date, month, year):
         data = {
-            "startDate": f"{year}-{month}-{start_date}",
-            "endDate": f"{year}-{month}-{end_date}",
+            "startDate": f"{start_date}/{month}/{year}",
+            "endDate": f"{end_date}/{month}/{year}",
         }
         return json.dumps(data)
