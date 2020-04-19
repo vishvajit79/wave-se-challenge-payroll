@@ -8,5 +8,6 @@
   "python.linting.enabled": true,
   "python.linting.pylintArgs": ["--load-plugins", "pylint-flask"],
   "python.envFile": "${workspaceRoot}/.env",
-  "python.jediEnabled": false
+  "python.jediEnabled": false,
+  "python.autoComplete.extraPaths": ["./server"]
 }
