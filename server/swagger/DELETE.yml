@@ -1,0 +1,7 @@
+Return an user key information based on his name
+---
+tags:
+  - upload
+responses:
+  200:
+    description: Delete the uploaded file and its data

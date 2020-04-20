@@ -37,9 +37,10 @@ class UploadController(Resource):
         Argument("fileNumber", location='args', required=True,
                  help="The file report number that needs to be deleted")
     )
+    @swag_from("../swagger/DELETE.yml")
     def delete(fileNumber):
         try:
             data = UploadService.delete_file(fileNumber)
-            return make_response(jsonify({"success": True, 'hour_log_deleted': data['hour_log_deleted'], 'file_deleted': data['upload_file_deleted'] is 1}))
+            return make_response(jsonify({"success": True, 'hour_log_deleted': data['hour_log_deleted'], 'file_deleted': data['upload_file_deleted'] == 1}))
         except Exception as e:
             return make_response(jsonify({"success": False, "error": str(e)}), 400)
