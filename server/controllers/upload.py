@@ -1,5 +1,5 @@
 """
-Define the REST verbs relative to the users
+Define the REST verbs relative to the upload
 """
 
 from flasgger import swag_from
